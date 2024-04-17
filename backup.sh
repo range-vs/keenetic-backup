@@ -1,7 +1,8 @@
 #!/bin/sh
 
 if [ -f .env ]; then
-    source .env
+    #source .env
+    export $(cat .env | xargs)
 
     if [ -z "$HOST" ]; then
         echo "HOST not find in .env"
@@ -19,8 +20,11 @@ if [ -f .env ]; then
     fi
 
     # Выполняем необходимые действия
-    config=$(ssh $USER@$HOST 'show running-config')
+    # config=$(ssh $USER@$HOST 'show running-config')
+    config=$(sshpass -p "$PASS" ssh $USER@$HOST 'show running-config')
     echo "$config"
+    version=$(sshpass -p "$PASS" ssh $USER@$HOST 'show version')
+    echo "$version"
 else
     echo "File .env not found"
     exit 1
