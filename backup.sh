@@ -4,26 +4,24 @@ if [ -f .env ]; then
     #source .env
     export $(cat .env | xargs)
 
-    if [ -z "$HOST" ]; then
-        echo "HOST not find in .env"
+    if [ -z "$HOST_KEENETIC" ]; then
+        echo "HOST_KEENETIC not find in .env"
         exit 1
     fi
 
-    if [ -z "$USER" ]; then
-        echo "USER not find in .env"
+    if [ -z "$USER_KEENETIC" ]; then
+        echo "USER_KEENETIC not find in .env"
         exit 1
     fi
 
-    if [ -z "$PASS" ]; then
-        echo "PASS not find in .env"
+    if [ -z "$PASS_KEENETIC" ]; then
+        echo "PASS_KEENETIC not find in .env"
         exit 1
     fi
 
-    # Выполняем необходимые действия
-    # config=$(ssh $USER@$HOST 'show running-config')
-    config=$(sshpass -p "$PASS" ssh $USER@$HOST 'show running-config')
+    config=$(sshpass -p "$PASS_KEENETIC" ssh $USER_KEENETIC@$HOST_KEENETIC 'show running-config')
     echo "$config"
-    version=$(sshpass -p "$PASS" ssh $USER@$HOST 'show version')
+    version=$(sshpass -p "$PASS_KEENETIC" ssh $USER_KEENETIC@$HOST_KEENETIC 'show version')
     echo "$version"
 else
     echo "File .env not found"
