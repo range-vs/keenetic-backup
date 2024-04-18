@@ -1,4 +1,7 @@
-1) Сделать Dockerfile с cron. Cron устанавливается в Dockerfile
+1) Docker:
+install docker
+docker build -t "NAME_ROUTER" .
+docker run -d "NAME_ROUTER"
 2) Попробовать удаленное выполнение через https
 3) В txt файлы попадают какие - то мусорные данные
 4) Все кредсы свести в .env
