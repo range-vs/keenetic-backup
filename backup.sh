@@ -1,6 +1,6 @@
 #!/bin/sh
 
-current_datetime=$(date +"%Y-%m-%d %H:%M:%S")
+current_datetime=$(date +"%Y-%m-%d_%H-%M-%S")
 sc_file="startup_config.txt"
 ver_file="version.txt"
 
@@ -44,11 +44,17 @@ if [ -f .env ]; then
     version=$(sshpass -p "$PASS_KEENETIC" ssh $USER_KEENETIC@$HOST_KEENETIC 'show version')
     # echo "$version"
     echo "$version" > "$ver_file"
-    filename = "backup_$current_datetime.zip"
+    filename="backup_$current_datetime.zip"
     zip "$filename" "$sc_file" "$ver_file"
     rm -rf "$sc_file" "$ver_file"
-    
-    curl -s -o "curl_output_webdav.log" -X PUT -u "$WEBDAV_USER:$WEBDAV_PASS" "$WEBDAV_HOST/$filename" -T "$filename"
+
+    echo "$WEBDAV_USER"
+    echo "$WEBDAV_PASS"
+    echo "$WEBDSV_HOST"
+    echo "$filename"   
+    out=$(curl -s -u "$WEBDAV_USER:$WEBDAV_PASS" -T "$filename" -o "curl_output_webdav.log" -X PUT "$WEBDAV_HOST/$filename")
+    echo "$out"
+    rm -rf "$filename"
     
 else
     echo "File .env not found"
