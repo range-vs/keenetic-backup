@@ -47,11 +47,7 @@ if [ -f .env ]; then
     filename="backup_$current_datetime.zip"
     zip "$filename" "$sc_file" "$ver_file"
     rm -rf "$sc_file" "$ver_file"
-
-    echo "$WEBDAV_USER"
-    echo "$WEBDAV_PASS"
-    echo "$WEBDSV_HOST"
-    echo "$filename"   
+  
     out=$(curl -s -u "$WEBDAV_USER:$WEBDAV_PASS" -T "$filename" -o "curl_output_webdav.log" -X PUT "$WEBDAV_HOST/$filename")
     echo "$out"
     rm -rf "$filename"
