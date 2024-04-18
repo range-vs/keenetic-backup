@@ -23,14 +23,33 @@ if [ -f .env ]; then
         exit 1
     fi
 
+    if [ -z "$WEBDAV_HOST" ]; then
+        echo "WEBDAV_HOST not find in .env"
+        exit 1
+    fi
+    
+    if [ -z "$WEBDAV_USER" ]; then
+        echo "WEBDAV_USER not find in .env"
+        exit 1
+    fi
+
+    if [ -z "$WEBDAV_PASS" ]; then
+        echo "WEBDAV_PASS not find in .env"
+        exit 1
+    fi
+
     config=$(sshpass -p "$PASS_KEENETIC" ssh $USER_KEENETIC@$HOST_KEENETIC 'show running-config')
     # echo "$config"
     echo "$config" > "$sc_file"
     version=$(sshpass -p "$PASS_KEENETIC" ssh $USER_KEENETIC@$HOST_KEENETIC 'show version')
     # echo "$version"
     echo "$version" > "$ver_file"
-    zip "backup_$current_datetime.zip" "$sc_file" "$ver_file"
+    filename = "backup_$current_datetime.zip"
+    zip "$filename" "$sc_file" "$ver_file"
     rm -rf "$sc_file" "$ver_file"
+    
+    curl -s -o "curl_output_webdav.log" -X PUT -u "$WEBDAV_USER:$WEBDAV_PASS" "$WEBDAV_HOST/$filename" -T "$filename"
+    
 else
     echo "File .env not found"
     exit 1
