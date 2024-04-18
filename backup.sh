@@ -67,7 +67,7 @@ if [ -f .env ]; then
     echo "$out"
     rm -rf "$filename"
 
-    curl "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage?chat_id=$TELEGRAM_USER_ID^^&text=Backup_for_$NAME_ROUTER_is_successfull"
+    curl "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage?chat_id=$TELEGRAM_USER_ID^^&text=Backup-for-$NAME_ROUTER-is-successfull"
     
 else
     echo "File .env not found"
