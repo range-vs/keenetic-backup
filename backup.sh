@@ -38,6 +38,21 @@ if [ -f .env ]; then
         exit 1
     fi
 
+    if [ -z "$NAME_ROUTER" ]; then
+        echo "NAME_ROUTER not find in .env"
+        exit 1
+    fi
+    
+    if [ -z "$TELEGRAM_BOT_TOKEN" ]; then
+        echo "TELEGRAM_BOT_TOKEN not find in .env"
+        exit 1
+    fi
+
+    if [ -z "$TELEGRAM_USER_ID" ]; then
+        echo "TELEGRAM_USER_ID not find in .env"
+        exit 1
+    fi
+
     config=$(sshpass -p "$PASS_KEENETIC" ssh $USER_KEENETIC@$HOST_KEENETIC 'show running-config')
     # echo "$config"
     echo "$config" > "$sc_file"
@@ -51,6 +66,8 @@ if [ -f .env ]; then
     out=$(curl -s -u "$WEBDAV_USER:$WEBDAV_PASS" -T "$filename" -o "curl_output_webdav.log" -X PUT "$WEBDAV_HOST/$filename")
     echo "$out"
     rm -rf "$filename"
+
+    curl "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage?chat_id=$TELEGRAM_USER_ID^^&text=Backup_for_$NAME_ROUTER_is_successfull"
     
 else
     echo "File .env not found"
