@@ -5,3 +5,6 @@
 6) написать документацию
 7) записать установку зависимостей:
 sudo apt-get install sshpass
+sudo apt-get install curl
+sudo apt-get install bash
+sudo apt-get install cron
