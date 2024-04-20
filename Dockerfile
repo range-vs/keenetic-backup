@@ -1,6 +1,6 @@
 FROM ubuntu:latest
 
-RUN apt-get update && apt-get -y install cron bash sshpass curl rsyslog
+RUN apt-get update && apt-get -y install cron bash sshpass curl
 
 COPY backup.sh /backup.sh
 COPY .env /.env
@@ -10,5 +10,5 @@ RUN echo "0 0 * * * root /bin/bash /backup.sh >> /var/log/cron.log 2>&1" > /etc/
     && chmod 0644 /etc/cron.d/backup-cron \
     && touch /var/log/cron.log
 
-# Запускаем rsyslog для логирования cron
-CMD service rsyslog start && cron -f
+# Запускаем cron в режиме передачи вывода на stdout
+CMD cron -f
