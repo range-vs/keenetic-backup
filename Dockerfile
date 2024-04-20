@@ -1,8 +1,6 @@
 FROM ubuntu:latest
-RUN apt-get update && apt-get -y install cron bash sshpass curl
+RUN apt-get update && apt-get -y install cron bash sshpass curl supervisor
 COPY backup.sh /backup.sh
 COPY .env /.env
-COPY cronfile /etc/cron.d/cronfile
-RUN chmod 0644 /etc/cron.d/cronfile
-RUN crontab /etc/cron.d/cronfile
-CMD ["cron", "-f"]
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
