@@ -1,0 +1,1 @@
+docker run -d "NAME_ROUTER"

@@ -1,6 +1,6 @@
 FROM ubuntu:latest
-RUN apt-get update && apt-get -y install cron curl bash sshpass
-COPY .env /.env
+RUN apt-get update && apt-get -y install curl bash sshpass
+COPY .env /root/.env
 COPY backup.sh /backup.sh
-COPY crontab /etc/cron.d/crontab
-CMD ["cron", "-f"]
+RUN chmod +x /backup.sh
+CMD ["/backup.sh"]
