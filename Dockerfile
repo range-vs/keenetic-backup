@@ -1,6 +1,6 @@
 FROM ubuntu:latest
 
-RUN apt-get update && apt-get -y install cron bash sshpass curl
+RUN apt-get update && apt-get -y install cron bash sshpass curl rsyslog
 
 COPY backup.sh /backup.sh
 COPY .env /.env
