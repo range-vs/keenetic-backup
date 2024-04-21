@@ -1,1 +1,1 @@
-docker run -d NAME_ROUTER
+docker run -d -p 8080:80 -p 443:443 -p 20:20 NAME_ROUTER
